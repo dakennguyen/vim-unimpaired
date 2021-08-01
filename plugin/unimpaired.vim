@@ -214,17 +214,17 @@ function! s:ExecMove(cmd) abort
 endfunction
 
 function! s:Move(cmd, count, map) abort
-  call s:ExecMove('move'.a:cmd.a:count)
+  call s:ExecMove('move'.a:cmd.a:count.'| normal ==')
   silent! call repeat#set("\<Plug>unimpairedMove".a:map, a:count)
 endfunction
 
 function! s:MoveSelectionUp(count) abort
-  call s:ExecMove("'<,'>move'<--".a:count)
+  call s:ExecMove("'<,'>move'<--".a:count."| normal gv=")
   silent! call repeat#set("\<Plug>unimpairedMoveSelectionUp", a:count)
 endfunction
 
 function! s:MoveSelectionDown(count) abort
-  call s:ExecMove("'<,'>move'>+".a:count)
+  call s:ExecMove("'<,'>move'>+".a:count."| normal gv=")
   silent! call repeat#set("\<Plug>unimpairedMoveSelectionDown", a:count)
 endfunction
 
