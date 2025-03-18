@@ -563,6 +563,18 @@ function! s:xml_decode(str) abort
   return s:xml_entity_decode(str)
 endfunction
 
+function! s:base64_encode(str) abort
+  return luaeval('vim.base64.encode(_A)', a:str)
+endfunction
+
+function! s:base64_decode(str) abort
+  if a:str !~# '^[A-Za-z0-9+/]\{2,}=\{0,2}$' || strlen(a:str) % 4 != 0
+    echohl WarningMsg | echo 'Invalid base64 string' | echohl None
+    return a:str
+  endif
+  return luaeval('vim.base64.decode(_A)', a:str)
+endfunction
+
 function! s:Transform(algorithm,type) abort
   let sel_save = &selection
   let cb_save = &clipboard
@@ -619,5 +631,7 @@ exe UnimpairedMapTransform('url_encode','[u')
 exe UnimpairedMapTransform('url_decode',']u')
 exe UnimpairedMapTransform('xml_encode','[x')
 exe UnimpairedMapTransform('xml_decode',']x')
+exe UnimpairedMapTransform('base64_encode','[4')
+exe UnimpairedMapTransform('base64_decode',']4')
 
 " vim:set sw=2 sts=2:
